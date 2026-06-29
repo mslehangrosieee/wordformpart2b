@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Formation Mastery - Ms Lê Hằng English</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #6C5CE7;
+            --secondary-color: #FDCB6E;
+            --accent-color: #00CEC9;
+            --correct-color: #10B981;
+            --wrong-color: #EF4444;
+            --card-bg: #FFFFFF;
+            --text-color: #2D3436;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+            transition: all 0.25s ease;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #a8c0ff, #3f2b96, #e8cbc0, #636fa4);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            z-index: 1;
+        }
+
+        .header-teacher {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .main-title {
+            text-align: center;
+            color: #FFFFFF;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .notice-box {
+            background: #EFF6FF;
+            border: 3px solid #3B82F6;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 0 #1D4ED8;
+            text-align: center;
+            color: #1E3A8A;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .notice-title {
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #1D4ED8;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .section-title {
+            background: linear-gradient(90deg, var(--primary-color), #8E44AD);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 14px;
+            margin: 35px 0 15px 0;
+            box-shadow: 0 5px 0 #4A2E80;
+            font-weight: 900;
+            font-size: 1.15rem;
+            text-transform: uppercase;
+        }
+
+        /* CARD ĐỐI VỚI CÂU ĐƠN */
+        .question-card {
+            background: var(--card-bg);
+            border: 3px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 0 #CBD5E1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sentence-line {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* CẤU TRÚC ĐOẠN VĂN CLOZE TEST */
+        .passage-card {
+            background: var(--card-bg);
+            border: 3px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 0 #CBD5E1;
+            line-height: 2.2;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            text-align: justify;
+        }
+
+        /* Ô NHẬP LIỆU CHUNG */
+        .wf-input {
+            padding: 6px 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border: 3px solid #CBD5E1;
+            border-radius: 10px;
+            outline: none;
+            color: #0F172A;
+            text-align: center;
+            width: 160px;
+            background: #F8FAFC;
+        }
+
+        .wf-input:focus {
+            border-color: var(--primary-color);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+        }
+
+        .wf-input.correct {
+            border-color: var(--correct-color) !important;
+            background-color: #ECFDF5 !important;
+            color: #065F46 !important;
+        }
+
+        .wf-input.wrong {
+            border-color: var(--wrong-color) !important;
+            background-color: #FEF2F2 !important;
+            color: #991B1B !important;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-4px); }
+            40%, 80% { transform: translateX(4px); }
+        }
+
+        .inline-root-word {
+            color: #7F8C8D;
+            font-weight: 900;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            margin: 0 4px;
+        }
+
+        /* NÚT KIỂM TRA CHO TỪNG PHẦN */
+        .section-control {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .btn-check-section {
+            background: #00CEC9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 900;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #00A8A4;
+        }
+
+        .btn-check-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #00A8A4;
+        }
+
+        .btn-check-section:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #00A8A4;
+        }
+
+        /* HỘP GIẢI THÍCH NGỮ PHÁP */
+        .explanation-panel {
+            background: #F8FAFC;
+            border-left: 6px solid var(--primary-color);
+            border-radius: 4px 12px 12px 4px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exp-item {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .exp-item:last-child { margin-bottom: 0; }
+
+        .badge-idx {
+            background: #E2E8F0;
+            color: #475569;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 900;
+            margin-right: 5px;
+        }
+
+        /* NỘP BÀI TỔNG */
+        .footer-actions {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .btn-submit-all {
+            background: #FF7675;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 900;
+            padding: 15px 50px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #D63031;
+        }
+
+        .btn-submit-all:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #D63031;
+        }
+
+        /* MODAL KẾT QUẢ */
+        .modal-mask {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            display: none;
+        }
+
+        .modal-box {
+            background: #FFFFFF;
+            padding: 35px;
+            border-radius: 24px;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            border: 5px solid var(--accent-color);
+            box-shadow: 0 12px 0 #00A8A4;
+            animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .score-num {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .feedback-msg {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2D3436;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .btn-reset {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-weight: 900;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #00A8A4;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 150;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-confetti"></canvas>
+
+    <div class="container">
+        <div class="header-teacher">Giáo viên biên soạn: Ms Lê Hằng English</div>
+        <h1 class="main-title">WORD FORMATION MASTERY</h1>
+        
+        <div class="notice-box">
+            <span class="notice-title">💡 HƯỚNG DẪN HOÀN THÀNH BÀI TẬP 💡</span>
+            Điền dạng đúng của từ trong ngoặc vào ô trống. Bạn có thể bấm <b>Kiểm tra đáp án</b> ở cuối mỗi cụm đề để xem giải thích chi tiết ngữ pháp và rà soát lỗi sai ngay lập tức!
+        </div>
+
+        <div id="dynamic-quiz-root"></div>
+
+        <div class="footer-actions">
+            <button class="btn-submit-all" onclick="calculateFinalScore()">NỘP BÀI TỔNG KẾT ĐIỂM</button>
+        </div>
+    </div>
+
+    <div class="modal-mask" id="score-modal">
+        <div class="modal-box">
+            <h2 style="margin-top:0; color: var(--correct-color);">✨ THÀNH TÍCH CỦA BẠN ✨</h2>
+            <div class="score-num" id="txt-score">0/0</div>
+            <div class="feedback-msg" id="txt-feedback"></div>
+            <button class="btn-reset" onclick="resetQuiz()">Làm lại bài thi</button>
+        </div>
+    </div>
+
+    <script>
+        // WEB AUDIO API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playChime(freq, type, duration) {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+        function soundSuccess() {
+            playChime(523.25, 'sine', 0.15);
+            setTimeout(() => playChime(659.25, 'sine', 0.25), 100);
+        }
+        function soundError() {
+            playChime(150, 'sawtooth', 0.2);
+            setTimeout(() => playChime(110, 'sawtooth', 0.25), 120);
+        }
+
+        // DATABASE TOÀN BỘ CÁC ĐỀ THI WORD FORM
+        const exerciseData = [
+            {
+                sectionId: "sec_f_1",
+                title: "I. Đề thi tuyển sinh vào lớp 10 chuyên Anh Tỉnh, Thành F (Câu đơn)",
+                type: "sentences",
+                questions: [
+                    { id: "f1", textBefore: "1. She has made a", root: "SURPRISE", textAfter: "decision to send her son the countryside with her parents.", answers: ["surprising"], exp: "Cần tính từ đứng trước danh từ 'decision'. Dùng dạng đuôi '-ing' vì mang tính chất chủ động, mô tả đặc điểm của sự vật/sự việc." },
+                    { id: "f2", textBefore: "2. He didn’t give any", root: "EXPLAIN", textAfter: "for his absence.", answers: ["explanation"], exp: "Sau từ chỉ định lượng 'any' cần một danh từ. Cụm cố định: 'give an explanation for' (đưa ra lời giải thích cho)." },
+                    { id: "f3", textBefore: "3. The jacket didn’t fit me very", root: "GOOD", textAfter: ".", answers: ["well"], exp: "Cần một trạng từ (Adverb) bổ nghĩa cho động từ thường 'fit'. Trạng từ của 'good' là 'well'." },
+                    { id: "f4", textBefore: "4. I wish you every", root: "SUCCEED", textAfter: "in your new job.", answers: ["success"], exp: "Sau 'every' + danh từ đếm được số ít hoặc danh từ trừu tượng. 'Success' là danh từ chỉ sự thành công." },
+                    { id: "f5", textBefore: "5. You look more", root: "BEAUTY", textAfter: "in your new dress.", answers: ["beautiful"], exp: "Sau hệ động từ (linking verb) 'look' + tính từ. Cấu trúc so sánh hơn với tính từ dài: more + beautiful." },
+                    { id: "f6", textBefore: "6. We found the new fashion very", root: "COLOUR", textAfter: ".", answers: ["colourful", "colorful"], exp: "Cấu trúc: find something + adj (nhận thấy cái gì đó như thế nào). Chấp nhận cả cách viết Anh-Anh và Anh-Mỹ." },
+                    { id: "f7", textBefore: "7. Few people can", root: "EXISTENCE", textAfter: "without water for more than a week.", answers: ["exist"], exp: "Sau động từ khuyết thiếu 'can' + động từ nguyên mẫu không 'to' (V-bare)." },
+                    { id: "f8", textBefore: "8. Tourism has", root: "REPLACEMENT", textAfter: "agriculture as the nation’s main industry.", answers: ["replaced"], exp: "Thì Hiện tại hoàn thành (has + V3/V-ed). 'Replace' đóng vai trò là động từ hành động chính." },
+                    { id: "f9", textBefore: "9.", root: "PROBABLE", textAfter: ", the best thing to do is to call them before you go.", answers: ["probably"], exp: "Cần một trạng từ liên kết đứng đầu câu, đứng trước dấu phẩy để bổ nghĩa cho toàn bộ mệnh đề phía sau." },
+                    { id: "f10", textBefore: "10. People love stories with happy", root: "END", textAfter: ".", answers: ["endings"], exp: "Cần danh từ đứng sau tính từ 'happy'. Do danh từ nói chung số nhiều nên thêm đuôi '-ings' (những cái kết viên mãn)." }
+                ]
+            },
+            {
+                sectionId: "sec_g_1",
+                title: "II. Đề thi tuyển sinh vào lớp 10 chuyên Anh Tỉnh, Thành G (Đoạn văn)",
+                type: "passage",
+                rawText: "What kind of education <span class='inline-root-word'>(0. EDUCATE)</span>, experience and background should we be giving our children? In a [input_g1] <span class='inline-root-word'>(1. COMPETE)</span> western economy, they need to be well-informed and [input_g2] <span class='inline-root-word'>(2. KNOW)</span>. In a complex ever-changing modern world, it is [input_g3] <span class='inline-root-word'>(3. ARGUE)</span> that the task of preparing the next generation cannot be carried out within the [input_g4] <span class='inline-root-word'>(4. TRADITION)</span> classroom framework, because acquiring a proper education in this way is simply [input_g5] <span class='inline-root-word'>(5. POSSIBLE)</span>. This is where computer-aided learning steps in, providing children with the skills that they will need in tomorrow’s world, in a one-to-one learnercenter environment. <br><br>There are those who claim, however, that [input_g6] <span class='inline-root-word'>(6. EXCEED)</span> exposure to computers may prove to be harmful rather than [input_g7] <span class='inline-root-word'>(7. BENEFIT)</span> to children and that is more [input_g8] <span class='inline-root-word'>(8. PRODUCE)</span> for education to take place in the classroom. They say that, although computers seem to hold a [input_g9] <span class='inline-root-word'>(9. RESIST)</span> appeal for some people, particularly young children, it is [input_g10] <span class='inline-root-word'>(10. PREFER)</span> for children to have a person, rather than a machine, for a teacher.",
+                questions: [
+                    { id: "g1", label: "1", answers: ["competitive"], exp: "Tính từ đứng trước danh từ để bổ nghĩa: 'competitive western economy' (nền kinh tế cạnh tranh)." },
+                    { id: "g2", label: "2", answers: ["knowledgeable"], exp: "Tính từ đứng sau cấu trúc 'need to be + adj'. Cấu trúc song hành thông qua từ 'and' liên kết với 'well-informed'." },
+                    { id: "g3", label: "3", answers: ["arguable", "unarguable"], exp: "Cấu trúc chủ ngữ giả 'It is + adj + that...'. Chấp nhận 'arguable' (đáng suy xét) hoặc 'unarguable' (không thể bàn cãi)." },
+                    { id: "g4", label: "4", answers: ["traditional"], exp: "Tính từ đứng trước bổ nghĩa cho cụm danh từ 'classroom framework'." },
+                    { id: "g5", label: "5", answers: ["impossible"], exp: "Bẫy tiền tố phủ định! Dựa vào văn cảnh phản bác phương pháp cũ: 'simply impossible' (hoàn toàn bất khả thi)." },
+                    { id: "g6", label: "6", answers: ["excessive"], exp: "Tính từ đứng trước bổ nghĩa cho danh từ 'exposure' (sự tiếp xúc quá đà)." },
+                    { id: "g7", label: "7", answers: ["beneficial"], exp: "Cấu trúc song hành tính từ: 'harmful (adj) rather than beneficial (adj)' (hại nhiều hơn lợi)." },
+                    { id: "g8", label: "8", answers: ["productive"], exp: "Cấu trúc giả định: 'it is more + adj + for someone to do something'." },
+                    { id: "g9", label: "9", answers: ["irresistible"], exp: "Bẫy tiền tố phủ định! Cụm danh từ: 'irresistible appeal' (sức hút khó cưỡng lại)." },
+                    { id: "g10", label: "10", answers: ["preferable"], exp: "Cấu trúc: 'It is preferable for someone to do something' (Sẽ tốt hơn/được ưu tiên hơn)." }
+                ]
+            },
+            {
+                sectionId: "sec_h_1",
+                title: "III. Đề thi lớp 10 chuyên Anh Tỉnh, Thành H (Câu đơn - Phần 1)",
+                type: "sentences",
+                questions: [
+                    { id: "h1_1", textBefore: "1. Students have a", root: "CHOOSE", textAfter: "between studying English or Russian.", answers: ["choice"], exp: "Cụm danh từ: 'have a choice between A or B' (có sự lựa chọn giữa A hoặc B)." },
+                    { id: "h1_2", textBefore: "2. He has overcome his difficulties with courage and", root: "DETERMINE", textAfter: ".", answers: ["determination"], exp: "Tính chất song hành: 'with + danh từ 1 (courage) + and + danh từ 2 (determination)'." },
+                    { id: "h1_3", textBefore: "3. I live alone and I don’t have many", root: "VISIT", textAfter: ".", answers: ["visitors"], exp: "Sau từ chỉ số lượng số nhiều 'many' + danh từ đếm được số nhiều chỉ người (visitors)." },
+                    { id: "h1_4", textBefore: "4. There should be parking spaces for the", root: "DISABLE", textAfter: ".", answers: ["disabled"], exp: "Cấu trúc 'The + Adj' dùng để chỉ một tầng lớp/nhóm người cố định trong xã hội (the disabled: người khuyết tật)." },
+                    { id: "h1_5", textBefore: "5. Robin Hood is a", root: "LEGEND", textAfter: "hero who lived in Sherwood Forest in Nottingham.", answers: ["legendary"], exp: "Cần tính từ bổ nghĩa cho danh từ 'hero' đứng sau để tạo thành cụm danh từ chỉnh chu." },
+                    { id: "h1_6", textBefore: "6. He was extremely", root: "PROTECT", textAfter: "of her public image.", answers: ["protective"], exp: "Cấu trúc tính từ đi kèm giới từ đặc trưng: 'be protective of someone/something' (bao bọc, bảo vệ cho ai/cái gì)." },
+                    { id: "h1_7", textBefore: "7. All the", root: "PARTICIPATE", textAfter: "in the conference had an opportunity to speak.", answers: ["participants"], exp: "Đóng vai trò làm chủ ngữ chính của câu, đi với động từ số nhiều 'had' -> Cần danh từ số nhiều chỉ người." },
+                    { id: "h1_8", textBefore: "8. What's your nationality? - I'm a", root: "JAPAN", textAfter: ".", answers: ["japanese"], exp: "Đứng sau mạo từ 'a' cần một danh từ đếm được chỉ quốc tịch một cá nhân -> 'a Japanese'." },
+                    { id: "h1_9", textBefore: "9. The recent floods cause", root: "WIDE", textAfter: "damage.", answers: ["widespread"], exp: "Tính từ ghép: 'widespread damage' mang ý nghĩa là sự thiệt hại trên diện rộng/khắp nơi." },
+                    { id: "h1_10", textBefore: "10. The police recovered the", root: "STEAL", textAfter: "jewelry yesterday.", answers: ["stolen"], exp: "Sử dụng quá khứ phân từ V3 ('stolen') làm tính từ mang nghĩa bị động bổ nghĩa cho danh từ 'jewelry' (trang sức bị đánh cắp)." }
+                ]
+            },
+            {
+                sectionId: "sec_h_2",
+                title: "IV. Đề thi lớp 10 chuyên Anh Tỉnh, Thành H (Câu đơn - Phần 2)",
+                type: "sentences",
+                questions: [
+                    { id: "h2_1", textBefore: "1.", root: "LEAD", textAfter: "is the one skill that can grant you the opportunity to get a good job.", answers: ["leadership"], exp: "Đứng đầu câu làm chủ ngữ chính -> Cần một danh từ trừu tượng chỉ kỹ năng điều hành: 'Leadership' (Năng lực lãnh đạo)." },
+                    { id: "h2_2", textBefore: "2. The talks were totally", root: "PRODUCT", textAfter: ". We didn’t reach agreement on anything at all.", answers: ["unproductive"], exp: "Bẫy tiền tố phủ định! Do vế sau ghi không đạt được thỏa thuận gì nên tính chất cuộc họp là vô ích/không năng suất." },
+                    { id: "h2_3", textBefore: "3. The boy was very violent and his parents found him", root: "MANAGE", textAfter: ".", answers: ["unmanageable"], exp: "Bẫy tiền tố/hậu tố kết hợp! Cấu trúc 'find someone + adj'. Cậu bé bạo lực nên không thể quản lý/bảo ban được." },
+                    { id: "h2_4", textBefore: "4. I want to study", root: "ENGINEER", textAfter: "at university.", answers: ["engineering"], exp: "Danh từ chỉ hệ ngành học/nghề nghiệp cụ thể: ngành kỹ thuật cơ khí (engineering)." },
+                    { id: "h2_5", textBefore: "5. The monument was erected in", root: "REMEMBER", textAfter: "of the soldiers who fell for posterity.", answers: ["remembrance"], exp: "Cụm danh từ cố định nâng cao: 'in remembrance of someone' (để tưởng nhớ/tưởng niệm về ai)." },
+                    { id: "h2_6", textBefore: "6. He wrote so many", root: "GRAMMAR", textAfter: "sentences in his essay that I couldn’t understand it.", answers: ["ungrammatical"], exp: "Bẫy tiền tố phủ định! Viết nhiều câu 'sai ngữ pháp' đến mức người chấm không thể hiểu nổi." },
+                    { id: "h2_7", textBefore: "7. You mustn’t leave your luggage", root: "ATTEND", textAfter: "for even a moment on the train.", answers: ["unattended"], exp: "Cấu trúc tính từ nâng cao: 'leave something unattended' nghĩa là bỏ mặc, không người trông coi hành lý." },
+                    { id: "h2_8", textBefore: "8. The accommodation was", root: "SPACE", textAfter: "and comfortable", answers: ["spacious"], exp: "Cần tính từ đứng song song với 'comfortable' bổ nghĩa cho danh từ chỗ ở -> 'spacious' (rộng rãi, thoáng đãng)." }
+                ]
+            },
+            {
+                sectionId: "sec_h_3",
+                title: "V. Đề thi lớp 10 chuyên Anh Tỉnh, Thành H (Đoạn văn Đà Lạt)",
+                type: "passage",
+                rawText: "In Vietnam, one of the best places to spend holiday is the romantic highland city called Da Lat, which is also know for its [input_h3_1] <span class='inline-root-word'>(1. TRANQUIL)</span>. First, the superb scenery, complemented by the pleasant climate all year round, provides a [input_h3_2] <span class='inline-root-word'>(2. POEM)</span> setting for romance. Just imagine walking among tall pine trees on windswept hills, standing in awe of a [input_h3_3] <span class='inline-root-word'>(3. SPECTACLE)</span> waterfall, or sitting among carpets of [input_h3_4] <span class='inline-root-word'>(4. FRAGRANCE)</span> flowers at sunset. <br><br>Second, travelling to Da Lat, people can engage in a wide range of activities. For example, beautiful gardens and buildings in lovely French [input_h3_5] <span class='inline-root-word'>(5. COLONY)</span> architecture located in quiet [input_h3_6] <span class='inline-root-word'>(6. NEIGHBOR)</span> offer exciting adventure. People can also stroll along tree-lined boulevards in the shade of huge pine trees, exploring shops that sell traditional handicrafts unique to Da Lat. Finally, people visiting Da Lat can enjoy luxury because of its [input_h3_7] <span class='inline-root-word'>(7. MODERN)</span>. By way of illustration, there are [input_h3_8] <span class='inline-root-word'>(8. DELIGHT)</span> hotels that have special rooms for them with candles and beautiful decorations. It is also possible for them to enjoy local specialties to the [input_h3_9] <span class='inline-root-word'>(9. ACCOMPANY)</span> of soft music in elegant restaurants which are open until late at night. In conclusion, Da Lat is the Vietnamese’s first choice for a [input_h3_10] <span class='inline-root-word'>(10. MEMORY)</span> holiday.",
+                questions: [
+                    { id: "h3_1", label: "1", answers: ["tranquility", "tranquillity"], exp: "Sau tính từ sở hữu 'its' cần một danh từ (sự yên bình/tĩnh lặng)." },
+                    { id: "h3_2", label: "2", answers: ["poetic"], exp: "Tính từ đứng trước bổ nghĩa cho danh từ 'setting' (bối cảnh đậm chất thơ/thơ mộng)." },
+                    { id: "h3_3", label: "3", answers: ["spectacular"], exp: "Tính từ đứng trước bổ nghĩa cho danh từ 'waterfall' (thác nước hùng vĩ, đẹp mắt)." },
+                    { id: "h3_4", label: "4", answers: ["fragrant"], exp: "Tính từ đứng trước bổ nghĩa cho danh từ 'flowers' (những đóa hoa tỏa ngát hương thơm)." },
+                    { id: "h3_5", label: "5", answers: ["colonial"], exp: "Thuật ngữ kiến trúc lịch sử: 'French colonial architecture' (kiến trúc thuộc địa Pháp)." },
+                    { id: "h3_6", label: "6", answers: ["neighborhoods", "neighbourhoods"], exp: "Làm chủ ngữ phụ bổ nghĩa cho động từ chia số nhiều 'offer' -> Cần một danh từ số nhiều chỉ khu vực lân cận." },
+                    { id: "h3_7", label: "7", answers: ["modernity"], exp: "Đứng sau giới từ 'because of' và tính từ sở hữu 'its' -> Cần danh từ chỉ sự hiện đại." },
+                    { id: "h3_8", label: "8", answers: ["delightful"], exp: "Tính từ bổ nghĩa cho danh từ 'hotels' mang sắc thái tích cực (những khách sạn tuyệt vời)." },
+                    { id: "h3_9", label: "9", answers: ["accompaniment"], exp: "Cấu trúc danh từ nâng cao: 'to the accompaniment of soft music' (trong tiếng nhạc đệm êm dịu)." },
+                    { id: "h3_10", label: "10", answers: ["memorable"], exp: "Tính từ đứng trước danh từ để tạo cụm danh từ hoàn chỉnh: 'a memorable holiday' (một kỳ nghỉ đáng nhớ)." }
+                ]
+            }
+        ];
+
+        function cleanStr(text) {
+            return text.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()’']/g,"").replace(/\s+/g," ");
+        }
+
+        // KHỞI TẠO VÀ BUILD GIAO DIỆN
+        function buildQuizDOM() {
+            const root = document.getElementById('dynamic-quiz-root');
+            
+            exerciseData.forEach(sec => {
+                // Tạo tiêu đề nhóm đề thi
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'section-title';
+                titleDiv.innerText = sec.title;
+                root.appendChild(titleDiv);
+
+                if (sec.type === "sentences") {
+                    // Xây dựng giao diện danh sách câu đơn độc lập
+                    sec.questions.forEach(q => {
+                        const card = document.createElement('div');
+                        card.className = "question-card";
+                        card.id = `card_${q.id}`;
+
+                        const line = document.createElement('div');
+                        line.className = "sentence-line";
+                        line.innerHTML = `<span>${q.textBefore}</span>`;
+
+                        const input = document.createElement('input');
+                        input.type = "text";
+                        input.className = "wf-input";
+                        input.id = `input_${q.id}`;
+                        input.placeholder = `(${q.root})`;
+
+                        line.appendChild(input);
+                        line.appendChild(document.createTextNode(q.textAfter));
+                        card.appendChild(line);
+                        root.appendChild(card);
+                    });
+                } else if (sec.type === "passage") {
+                    // Xây dựng giao diện đoạn văn điền từ trực tiếp
+                    const pCard = document.createElement('div');
+                    pCard.className = "passage-card";
+                    pCard.id = `card_passage_${sec.sectionId}`;
+                    
+                    let processedHTML = sec.rawText;
+                    sec.questions.forEach(q => {
+                        const inputHTML = `<input type="text" class="wf-input" id="input_${q.id}" placeholder="(${q.label})">`;
+                        processedHTML = processedHTML.replace(`[input_${q.id}]`, inputHTML);
+                    });
+                    
+                    pCard.innerHTML = processedHTML;
+                    root.appendChild(pCard);
+                }
+
+                // Thiết lập hộp điều khiển kiểm tra nhanh và bảng giải thích bên dưới mỗi cụm đề
+                const ctrlDiv = document.createElement('div');
+                ctrlDiv.className = "section-control";
+                
+                const btn = document.createElement('button');
+                btn.className = "btn-check-section";
+                btn.innerText = "Kiểm tra đáp án cụm này";
+                btn.onclick = () => verifyCurrentSection(sec);
+                
+                ctrlDiv.appendChild(btn);
+                root.appendChild(ctrlDiv);
+
+                const expPanel = document.createElement('div');
+                expPanel.className = "explanation-panel";
+                expPanel.id = `panel_exp_${sec.sectionId}`;
+                
+                let expHTML = `<h4 style="margin-top:0;color:var(--primary-color);">💡 PHÂN TÍCH NGỮ PHÁP CHI TIẾT TỪ MS LÊ HẰNG:</h4>`;
+                sec.questions.forEach((q, i) => {
+                    expHTML += `
+                        <div class="exp-item">
+                            <span class="badge-idx">${q.label || (i + 1)}</span> 
+                            <b>Đáp án chuẩn:</b> <span style="color:var(--correct-color); font-weight:900;">${q.answers.join(' / ')}</span> 
+                            <br><i style="color:#64748B;">➔ Cơ sở: ${q.exp}</i>
+                        </div>
+                    `;
+                });
+                expPanel.innerHTML = expHTML;
+                root.appendChild(expPanel);
+            });
+        }
+
+        // XỬ LÝ KIỂM TRA ĐÁP ÁN THEO TỪNG CỤM ĐỀ RIÊNG BIỆT
+        function verifyCurrentSection(sec) {
+            let sectionHasError = false;
+
+            sec.questions.forEach(q => {
+                const inputEl = document.getElementById(`input_${q.id}`);
+                if (!inputEl) return;
+
+                const userVal = cleanStr(inputEl.value);
+                const checkCorrect = q.answers.some(ans => cleanStr(ans) === userVal);
+
+                inputEl.disabled = true;
+                if (checkCorrect) {
+                    inputEl.className = "wf-input correct";
+                } else {
+                    inputEl.className = "wf-input wrong";
+                    sectionHasError = true;
+                }
+            });
+
+            if (sectionHasError) {
+                soundError();
+            } else {
+                soundSuccess();
+                launchConfetti();
+            }
+
+            const panel = document.getElementById(`panel_exp_${sec.sectionId}`);
+            if (panel) panel.style.display = "block";
+        }
+
+        // TỔNG HỢP VÀ TÍNH ĐIỂM CHO TOÀN BỘ BÀI THI TỔNG
+        function calculateFinalScore() {
+            let grandTotal = 0;
+            let scoreCorrect = 0;
+
+            exerciseData.forEach(sec => {
+                sec.questions.forEach(q => {
+                    grandTotal++;
+                    const inputEl = document.getElementById(`input_${q.id}`);
+                    if (inputEl) {
+                        const userVal = cleanStr(inputEl.value);
+                        const isRight = q.answers.some(ans => cleanStr(ans) === userVal);
+                        if (isRight) scoreCorrect++;
+                        
+                        // Tự động mở khóa đáp án và khóa ô nhập liệu khi nhấn nút tổng kết
+                        inputEl.disabled = true;
+                        if (isRight) inputEl.className = "wf-input correct";
+                        else inputEl.className = "wf-input wrong";
+                    }
+                });
+                const panel = document.getElementById(`panel_exp_${sec.sectionId}`);
+                if (panel) panel.style.display = "block";
+            });
+
+            const percent = (scoreCorrect / grandTotal) * 100;
+            let feedback = "";
+
+            if (percent === 100) {
+                feedback = "Quá xuất sắc! Con làm đúng toàn bộ 100% bài thi. Kiến thức Word Form Chuyên Anh của con đạt mức thượng thừa rồi!";
+            } else if (percent >= 75) {
+                feedback = "Tuyệt vời! Con nắm rất vững cấu trúc và tránh được hầu hết các bẫy tiền tố phủ định của đề Chuyên.";
+            } else if (percent >= 50) {
+                feedback = "Khá tốt, tuy nhiên đề thi Chuyên luôn có nhiều bẫy từ loại phức tạp. Con hãy kiểm tra lại các hộp giải thích màu tím phía dưới nhé!";
+            } else {
+                feedback = "Đừng nản lòng nhé! Hãy rà soát lại các lỗi sai cùng phần phân tích từ loại của cô để tích lũy kinh nghiệm cho lần sau nha.";
+            }
+
+            document.getElementById('txt-score').innerText = `${scoreCorrect} / ${grandTotal}`;
+            document.getElementById('txt-feedback').innerText = feedback;
+            document.getElementById('score-modal').style.display = "flex";
+            
+            if (percent >= 75) {
+                soundSuccess();
+                launchConfetti();
+            } else {
+                soundError();
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('score-modal').style.display = "none";
+            location.reload();
+        }
+
+        // HỆ THỐNG HIỆU ỨNG PHÁO HOA CONFETTI TRÊN CANVAS
+        const cv = document.getElementById('canvas-confetti');
+        const cx = cv.getContext('2d');
+        let confettis = [];
+        function resizeCanvas() {
+            cv.width = window.innerWidth;
+            cv.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function launchConfetti() {
+            for (let i = 0; i < 50; i++) {
+                confettis.push({
+                    x: window.innerWidth / 2 + (Math.random() - 0.5) * 300,
+                    y: window.innerHeight / 2 + (Math.random() - 0.5) * 200,
+                    vx: (Math.random() - 0.5) * 14,
+                    vy: (Math.random() - 0.7) * 15,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    r: Math.random() * 5 + 5,
+                    opacity: 1
+                });
+            }
+        }
+
+        function renderConfettiLoop() {
+            cx.clearRect(0, 0, cv.width, cv.height);
+            confettis.forEach((p, idx) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.25;
+                p.opacity -= 0.015;
+                if (p.opacity <= 0) {
+                    confettis.splice(idx, 1);
+                } else {
+                    cx.fillStyle = p.color;
+                    cx.globalAlpha = p.opacity;
+                    cx.beginPath();
+                    cx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    cx.fill();
+                }
+            });
+            cx.globalAlpha = 1;
+            requestAnimationFrame(renderConfettiLoop);
+        }
+        requestAnimationFrame(renderConfettiLoop);
+
+        window.onload = function() {
+            buildQuizDOM();
+        };
+    </script>
+</body>
+</html>
